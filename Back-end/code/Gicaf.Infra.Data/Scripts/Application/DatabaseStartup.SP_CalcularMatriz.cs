@@ -22,7 +22,6 @@ namespace Gicaf.Infra.Data.Scripts
             GO
 
             -- =============================================
-            -- Author:		Daniel Carvalho Souza
             -- Create date: <Create Date,,>
             -- Description:	<Description,,>
             -- =============================================

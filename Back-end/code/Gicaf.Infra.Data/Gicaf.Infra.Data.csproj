@@ -19,7 +19,6 @@
   <ItemGroup>
     <Compile Remove="Migrations\20191029191204_dadoscomplementares.cs" />
     <Compile Remove="Migrations\20191025214457_Pessoa4.cs" />
-    <Compile Remove="Migrations\20191028155932_testedaniel.cs" />
     <Compile Remove="Migrations\20191217232750_teste.cs" />
     <Compile Remove="Migrations\20191217232750_teste.Designer.cs" />
   </ItemGroup>
@@ -45,9 +44,9 @@
     <PackageReference Include="System.ServiceModel.Security" Version="4.4.*" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Axxiom.EFCore.BulkExtensions\EFCore.BulkExtensions.csproj" />
-    <ProjectReference Include="..\Axxiom.Linq.Dynamic.Core\Gicaf.Linq.Dynamic.Core.csproj" />
+    <ProjectReference Include="..\EFCore.BulkExtensions\EFCore.BulkExtensions.csproj" />
     <ProjectReference Include="..\Gicaf.Domain\Gicaf.Domain.csproj" />
+    <ProjectReference Include="..\Gicaf.Linq.Dynamic.Core\Gicaf.Linq.Dynamic.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Extensions.Logging.Console">

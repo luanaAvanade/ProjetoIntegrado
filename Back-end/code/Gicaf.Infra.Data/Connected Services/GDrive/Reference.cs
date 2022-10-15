@@ -1235,15 +1235,7 @@ namespace GDrive
         
         private static System.ServiceModel.EndpointAddress GetEndpointAddress(EndpointConfiguration endpointConfiguration)
         {
-            if ((endpointConfiguration == EndpointConfiguration.BasicHttpBinding_GEDService))
-            {
-                return new System.ServiceModel.EndpointAddress("http://qwnap-bheged02.cemig.ad.corp/INTEROP/WebHost/Services/GEDService.svc/Soap11");
-            }
-            if ((endpointConfiguration == EndpointConfiguration.WSHttpBinding_GEDService))
-            {
-                return new System.ServiceModel.EndpointAddress("http://qwnap-bheged02.cemig.ad.corp/INTEROP/WebHost/Services/GEDService.svc/Soap12");
-            }
-            throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
+            return null;
         }
         
         public enum EndpointConfiguration

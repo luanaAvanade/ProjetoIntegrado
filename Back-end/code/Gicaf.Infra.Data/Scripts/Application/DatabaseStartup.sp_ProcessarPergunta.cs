@@ -23,8 +23,6 @@ namespace Gicaf.Infra.Data.Scripts
             GO
 
             -- =============================================
-            -- Author:		Daniel Carvalho Souza
-            -- Create date: 19/07/2019
             -- Description:	
             -- =============================================
             CREATE PROCEDURE [dbo].[sp_ProcessarPergunta]

@@ -211,7 +211,7 @@ namespace RazorMailer.Core
             message.Dispose();
         }
 
-        public virtual async Task LogMailError(MailMessage message,Exception e)//todo[iuri] apagar apos corrigir erros de email no ambiente cemig
+        public virtual async Task LogMailError(MailMessage message,Exception e)
         {
             string path = @"c:\temp\logSrmEmail.txt";
             if (!File.Exists(path))

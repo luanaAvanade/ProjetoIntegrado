@@ -39,7 +39,7 @@ namespace RazorMailer.Core.Dispatchers
         {
             var client = new SmtpClient
             {
-                Host = _emailConfig.Smtp.Host, //"srvsmtp01.axxiom1.local",
+                Host = _emailConfig.Smtp.Host, 
                 Port = _emailConfig.Smtp.Port??0,
                 UseDefaultCredentials = _emailConfig.Smtp.UseDefaultCredentials,
                 EnableSsl = false,
