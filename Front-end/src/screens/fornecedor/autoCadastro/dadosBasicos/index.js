@@ -269,7 +269,6 @@ export default function DadosBasicos({
 		confirmarEmail: '',
 		senha: '',
 		confirmarSenha: '',
-		//contatosAdicionais: [],
 		dadosPessoaFisica: {},
 		aceitoCondicoes: false,
 		dataNascimento: '',
@@ -451,17 +450,6 @@ export default function DadosBasicos({
 			testSelectRequired(value)
 		),
 		tipoCadastro: Yup.string().required(translate('campoObrigatorio')),
-		// emailContato: Yup.string()
-		// 	.nullable()
-		// 	.test('emailContatoRequired', messageValidateEmail, value =>
-		// 		testEmailContato(value)
-		// 	),
-		// nomeContato: Yup.string()
-		// 	.nullable()
-		// 	.test('nomeContato', translate('campoObrigatorio'), value =>
-		// 		testNomeContato(value)
-		// 	),
-
 		cnpj: Yup.string().test('CNPJ', messageValidateCNPJ, value => testeCNPJ(value)),
 		nomeEmpresa: Yup.string().required(translate('campoObrigatorio')),
 		inscricaoEstadual: Yup.string().test(
@@ -475,16 +463,6 @@ export default function DadosBasicos({
 			value => testSelectRequired(value)
 		),
 		dataAbertura: Yup.string().test('dataAbertura', messageValidateData, value => testData(value)),
-		// atividadeEconomicaPrincipal: Yup.string()
-		// 	.nullable()
-		// 	.test('atividadeEconomicaPrincipal', translate('campoObrigatorio'), value =>
-		// 		testAtividadeEconomicaPrincipal(value)
-		// 	),
-		// ocupacaoPrincipal: Yup.string().test(
-		// 	'ocupacaoPrincipal',
-		// 	translate('campoObrigatorio'),
-		// 	value => testOcupacaoPrincipal(value)
-		// ),
 		cep: Yup.string().required(translate('campoObrigatorio')),
 		logradouro: Yup.string().required(translate('campoObrigatorio')),
 		numero: Yup.string().required(translate('campoObrigatorio')),

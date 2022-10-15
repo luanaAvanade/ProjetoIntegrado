@@ -101,27 +101,6 @@ export default function DadosEndereco({
 	};
 
 	const buscarEndereco = async () => {
-		//dispatch(LoaderCreators.setLoading(translate('buscandoDadosCorreio')));
-		// try {
-		// 	const response = await EnderecoService.buscarPorCep(soNumero(cep.value));
-		// 	if (response.erro == true) {
-		// 		enqueueSnackbar('', snackWarning(translateWithHtml('cepInvalido'), closeSnackbar));
-		// 		limpaCamposEndereco();
-		// 		dispatch(LoaderCreators.disableLoading());
-		// 	} else {
-		// 		limpaCamposEndereco();
-		// 		setFieldValue('logradouro', response.logradouro);
-		// 		setFieldValue('bairro', response.bairro);
-		// 		const estadoRetorno = getEstado(response.uf);
-		// 		setFieldValue('estado', estadoRetorno.value);
-		// 		setIbge(response.ibge);
-		// 		dispatch(LoaderCreators.disableLoading());
-		// 	}
-		// } catch (error) {
-		// 	enqueueSnackbar('', snackWarning(translateWithHtml('servicoCepIndisponivel'), closeSnackbar));
-		// 	limpaCamposEndereco();
-		// 	dispatch(LoaderCreators.disableLoading());
-		// }
 	};
 
 	// Efeito Inicial
@@ -272,7 +251,6 @@ export default function DadosEndereco({
 						</Box>
 						<Box width='30%' paddingRight={`${theme.spacing(1)}px`}>
 							<FormSelect
-								//disabled={estadoList.length === 0 || disableEdit}
 								label={`${translate('estado')}`}
 								labelInitialItem={translate('selecioneOpcao')}
 								items={estadoList}

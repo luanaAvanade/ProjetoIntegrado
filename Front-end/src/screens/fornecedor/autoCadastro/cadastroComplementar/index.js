@@ -32,12 +32,8 @@ import {
 	CADASTRO_CRIADO
 } from '@/utils/constants';
 import { DisplayDiv } from './style';
-import { Done, Clear } from '@material-ui/icons';
-
 import { Confirm, Button, Card, Modal } from '@/components';
 import { BotoesCadastro } from '@/screens/fornecedor/autoCadastro/componentesLayout/botoesCadastro';
-import { StatusEmpresa } from '@/screens/fornecedor/autoCadastro/componentesLayout/statusEmpresa';
-import { getDisableEdit } from '../aprovacao/util';
 import { Valid, Invalid } from './style';
 
 export default function CadastroComplemetar() {
@@ -288,16 +284,14 @@ export default function CadastroComplemetar() {
 	useEffect(() => {
 		setEmpresa(null);
 		setItensAnalise([]);
-			setComentarios([]);
-			setListTermosAceiteEmpresa([]);
-			setDadosBasicosIsValid(false);
-			setDadosFinanceirosIsValid(false);
-			setDadosComplementaresIsValid(false);
-			setSocioIsValid(false);
-			setStatusCadastro(null);
-
-		//empresaFindById();
-		return () => {
+		setComentarios([]);
+		setListTermosAceiteEmpresa([]);
+		setDadosBasicosIsValid(false);
+		setDadosFinanceirosIsValid(false);
+		setDadosComplementaresIsValid(false);
+		setSocioIsValid(false);
+		setStatusCadastro(null);
+	return () => {
 					};
 	}, []);
 
@@ -305,13 +299,6 @@ export default function CadastroComplemetar() {
 
 	const empresaFindById = async () => {
 		dispatch(LoaderCreators.setLoading());
-		//const u = getUser();
-		// if (u === null) {
-		// 	return history.push(paths.getPathByCodigo('semPermissao'));
-		// }
-
-//		goHome();
-
 		
 		var UsuarioEmp = {
 			Nome: 'Luana Rodrigues Santos'
@@ -340,131 +327,59 @@ export default function CadastroComplemetar() {
 
 
 
-		var empresa = 
-			{
-				Id: 1,
-				Situacao: 2,
-				NomeEmpresa: 'Empresa telecom',
-				CalculoRiscoLista: calcRiscoLista,
-				CNPJ: '123456789',
-				TipoEmpresa: '1',
-				TipoCadastro: 'cadastro empresa',
-				DataCriacao: '',
-				AnaliseCadastro: AnaliseCadastro,
-	IsentoIE: true,
-	InscricaoMunicipal: 'sjdffjldfj',
-	OptanteSimplesNacional: true,
-	DataAbertura: '',
-	DadosPessoaFisicaId: null,
-	DadosPessoaFisica: null,
-	ContatosAdicionais: null,
-	Usuarios: null,
-	ContatoSolicitante: null,
-	ContatoSolicitanteId: null,
-	Enderecos: null,
-	GruposFornecimento: null,
-	Documentos: null,
-	DadosBalancosPatrimoniais: null,
-	DadosDREs: null,
-	DadosBancariosId: null,
-	DadosBancarios: null,
-	Socios: null,
-	GruposDeAssinatura: null,
-	CapitalSocialTotalSociedade: null,
-	DataRegistroSociedade: '',
-	AtividadeEconomicaPrincipalId: null,
-	AtividadeEconomicaPrincipal: null,
-	OcupacaoPrincipalId: null,
-	OcupacaoPrincipal: null,
-	TermoAceiteEmpresa: null,
-	CodigoSap: '',
-	Situacao: null,
-	Comentarios: null,
-	LinkCadastro: '', 
-	Historico: historicoEmpresa
+    var empresa = 
+	{
+		Id: 1,
+		Situacao: 2,
+		NomeEmpresa: 'Empresa telecom',
+		CalculoRiscoLista: calcRiscoLista,
+		CNPJ: '123456789',
+		TipoEmpresa: '1',
+		TipoCadastro: 'cadastro empresa',
+		DataCriacao: '',
+		AnaliseCadastro: AnaliseCadastro,
+		IsentoIE: true,
+		InscricaoMunicipal: 'sjdffjldfj',
+		OptanteSimplesNacional: true,
+		DataAbertura: '',
+		DadosPessoaFisicaId: null,
+		DadosPessoaFisica: null,
+		ContatosAdicionais: null,
+		Usuarios: null,
+		ContatoSolicitante: null,
+		ContatoSolicitanteId: null,
+		Enderecos: null,
+		GruposFornecimento: null,
+		Documentos: null,
+		DadosBalancosPatrimoniais: null,
+		DadosDREs: null,
+		DadosBancariosId: null,
+		DadosBancarios: null,
+		Socios: null,
+		GruposDeAssinatura: null,
+		CapitalSocialTotalSociedade: null,
+		DataRegistroSociedade: '',
+		AtividadeEconomicaPrincipalId: null,
+		AtividadeEconomicaPrincipal: null,
+		OcupacaoPrincipalId: null,
+		OcupacaoPrincipal: null,
+		TermoAceiteEmpresa: null,
+		CodigoSap: '',
+		Situacao: null,
+		Comentarios: null,
+		LinkCadastro: '', 
+		Historico: historicoEmpresa
 				
-			}
+	}
 	
-			setEmpresa(empresa);
-
-
-
-			setKey(key + 1);
-
-
-
-
-			            //empresa = montarAnalise(empresa);
-						// const t = response.data.Empresa_list[0].AnaliseCadastro.ItensAnalise;
-						// t.forEach(x => (x.ArquivoId = x.ArquivoId === '' ? null : x.ArquivoId));
-						//setItensAnalise(response.data.Empresa_list[0].AnaliseCadastro.ItensAnalise);
-						setStatusCadastro(
-							empresa.AnaliseCadastro.StatusAnalise === ''
-								? null
-								: empresa.AnaliseCadastro.StatusAnalise
-						);
-						setListTermosAceiteEmpresa(empresa.TermoAceiteEmpresa);
-						
-	
-				
-						dispatch(LoaderCreators.disableLoading());
-
-
-
-
-		// const usuario = {
-		// 	empresaId: u.empresaId,
-		// 	perfilAnalista: u.permissions.find(x => x.name === 'FORNECEDOR_ANALISE_CADASTRO').u,
-		// 	id: u.id,
-		// 	nome: u.nome
-		// };
-
-		// if (usuario.perfilAnalista && idParam) {
-		// 	usuario.empresaId = idParam;
-		// }
-		// setUser(usuario);
-
-		// if (usuario.perfilAnalista && !usuario.empresaId) {
-		// 	goAnalise();
-		// } else if (!usuario.perfilAnalista && !usuario.empresaId) {
-		// 	goHome();
-		// } else {
-		// 	try {
-		// 		const response = await EmpresaService.findById(usuario.empresaId);
-		// 		if (response.data && response.data.Empresa_list.length > 0) {
-		// 			response.data.Empresa_list[0].Historico = historicoEmpresa;
-		// 			setEmpresa(response.data.Empresa_list[0]);
-
-		// 			response.data.Empresa_list[0] = montarAnalise(response.data.Empresa_list[0]);
-		// 			// const t = response.data.Empresa_list[0].AnaliseCadastro.ItensAnalise;
-		// 			// t.forEach(x => (x.ArquivoId = x.ArquivoId === '' ? null : x.ArquivoId));
-		// 			setItensAnalise(response.data.Empresa_list[0].AnaliseCadastro.ItensAnalise);
-		// 			setStatusCadastro(
-		// 				response.data.Empresa_list[0].AnaliseCadastro.StatusAnalise === ''
-		// 					? null
-		// 					: response.data.Empresa_list[0].AnaliseCadastro.StatusAnalise
-		// 			);
-		// 			setListTermosAceiteEmpresa(response.data.Empresa_list[0].TermoAceiteEmpresa);
-		// 			setKey(key + 1);
-
-		// 			if (
-		// 				!usuario.perfilAnalista &&
-		// 				countLembrete === 0 &&
-		// 				response.data.Empresa_list[0].AnaliseCadastro.StatusAnalise === CADASTRO_CRIADO
-		// 			) {
-		// 				setModalLembreteAtualizacaoCadastro(true);
-		// 				setCountLembrete(1);
-		// 			}
-
-		// 			dispatch(LoaderCreators.disableLoading());
-		// 		} else {
-		// 			dispatch(LoaderCreators.disableLoading());
-		// 			callbackError(translate('erroCarregamentoDadosEmpresa'));
-		// 		}
-		// 	} catch (error) {
-		// 		dispatch(LoaderCreators.disableLoading());
-		// 	}
-		// }
+	setEmpresa(empresa);
+	setKey(key + 1);
+	setStatusCadastro(
+		empresa.AnaliseCadastro.StatusAnalise === ''
+		? null 	: empresa.AnaliseCadastro.StatusAnalise
+		);
+	setListTermosAceiteEmpresa(empresa.TermoAceiteEmpresa);
+	dispatch(LoaderCreators.disableLoading());
 	};
 
 	const goHome = () => {
@@ -519,7 +434,6 @@ export default function CadastroComplemetar() {
 		comentariosTemp.forEach(x => {
 			x.Local = ENUM_ITEMS_ANALISE.find(y => y.value === x.Local).internalName;
 			delete x.DataCriacao;
-			//x.Usuario ? delete x.Usuario : null;
 		});
 		return comentariosTemp;
 	}
@@ -588,15 +502,6 @@ export default function CadastroComplemetar() {
 
 	//Aprovacao
 	const montarAnalise = dado => {
-		// if (dado.AnaliseCadastro.ItensAnalise === null) {
-		// 	dado.AnaliseCadastro.ItensAnalise = [];
-		// } else {
-		// 	dado.AnaliseCadastro.ItensAnalise.forEach(
-		// 		x => (x.ArquivoId = x.ArquivoId === '' ? null : x.ArquivoId)
-		// 	);
-		// }
-		//dado.AnaliseCadastro.AtribuidoId === '' ? null : dado.AnaliseCadastro.AtribuidoId;
-		//return dado;
 	};
 
 	// Ações de retorno
@@ -731,7 +636,6 @@ export default function CadastroComplemetar() {
 							setAcao={setAcao}
 							enviarCadastro={enviarCadastro}
 							empresaFindById={empresaFindById}
-							//disableEdit={getDisableEdit(user, empresa.AnaliseCadastro, null)}
 							finalizarAnalise={finalizarAnalise}
 							statusEmpresa={"Pendente Envio"}
 						/>

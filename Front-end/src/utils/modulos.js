@@ -42,21 +42,6 @@ export const modulosPermitidos = () => {
 };
 
 export const checkFuncionalidade = (funcionalidade, acao) => {
-	//const usuario = getUser();
-
 	let isPermitted = true;
-	// usuario.permissions.forEach(permission => {
-	// 	if (permission.children && permission.children.length && permission[acao]) {
-	// 		permission.children.forEach(children => {
-	// 			if (children === funcionalidade) {
-	// 				isPermitted = true;
-	// 			}
-	// 		});
-	// 	} else {
-	// 		if (permission.name === funcionalidade && permission[acao]) {
-	// 			isPermitted = true;
-	// 		}
-	// 	}
-	// });
 	return isPermitted;
 };

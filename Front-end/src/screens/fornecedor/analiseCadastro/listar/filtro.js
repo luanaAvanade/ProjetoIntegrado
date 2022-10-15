@@ -36,13 +36,11 @@ export function FiltroAnalise({ openFiltro, setOpenFiltro, setFiltro }) {
 		setKey
 	] = useState(0);
 
-	// // Efeito Inicial
+	// Efeito Inicial
 
 	useEffect(() => {
 		setOpenFiltro(false);
-		//carregarDados();
 		return () => {
-			//resetForm();
 			setEstadoList([]);
 		};
 	}, []);

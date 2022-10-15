@@ -17,11 +17,6 @@ function PrivateRoute({ funcionalidade, acao, component: Component, ...rest }) {
 	const getPermissao = () => {
 		const permitMap = modulosPermitidos();
 		let permissao = permitMap.get(funcionalidade);
-		// if (permissao == 'MODIFICA') {
-		// 	return true;
-		// } else {
-		// 	return false;
-		// }
 		return true;
 	};
 
