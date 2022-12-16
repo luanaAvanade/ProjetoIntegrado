@@ -20,6 +20,7 @@ namespace Gicaf.Infra.Data.Mappings
         public override void Configure(EntityTypeBuilder<Usuario> builder)
         {
             base.Configure(builder);
+            builder.HasOne(_ => _.GrupoUsuario).WithMany(_ => _.Usuarios).HasForeignKey(_ => _.GrupoUsuarioId);
             builder.HasOne(_ => _.Empresa).WithMany(_ => _.Usuarios).HasForeignKey(_ => _.EmpresaId);
             builder.Ignore(_ => _.UserName);
             builder.Ignore(_ => _.PassWord);

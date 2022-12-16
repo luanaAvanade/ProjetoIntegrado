@@ -1,5 +1,6 @@
 ﻿using Gicaf.Application.GraphQL.Types.Base;
 using Gicaf.Application.GraphQL.Types.InputTypes;
+using Gicaf.Domain.Entities;
 using Gicaf.Domain.Entities.Fornecedores;
 using Gicaf.Domain.Interfaces.Services;
 using Gicaf.Domain.Services;
@@ -54,6 +55,7 @@ namespace Gicaf.Application.GraphQL.Types.QueryTypes.Mutations
             Field (x => x.OcupacaoPrincipalId,true);
             Field(x => x.DadosPessoaFisica, true, typeof(DadosPessoaFisicaCreateInput));
             Field(x => x.DadosBancarios, true, typeof(DadosBancariosInput));
+            Field(x => x.GruposFornecimento, true, typeof(ListGraphType<GrupoFornecimentoInput>));
         }
     }
 

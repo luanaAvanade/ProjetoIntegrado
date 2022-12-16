@@ -166,6 +166,7 @@ namespace Gicaf.Application.GraphQL.Types
                 }
                 case Resolvers.ResolverType.GerarRespostas:
                 {
+                    arguments.Add(InputArgumentFor<GerarRespostasInput>(false));
                     break;
                 }
                 case Resolvers.ResolverType.Aggregate:
@@ -195,8 +196,56 @@ namespace Gicaf.Application.GraphQL.Types
         {
             switch (name)
             {
+                case nameof(ArquivoProcessamentoPergunta):
+                    return InputArgumentFor<ArquivoProcessamentoPerguntaInput>(isListType);
+                case nameof(Categoria):
+                    return InputArgumentFor<CategoriaUpdateInput>(isListType);
+                case nameof(DadosBalancoPatrimonial):
+                    return InputArgumentFor<DadosBalancoPatrimonialUpdateInput>(isListType);
+                case nameof(DadosDRE):
+                    return InputArgumentFor<DadosDREUpdateInput>(isListType);
+                case nameof(DocumentoEmpresa):
+                    return InputArgumentFor<DocumentoEmpresaUpdateInput>(isListType);
                 case nameof(Empresa):
                     return InputArgumentFor<EmpresaUpdateInput>(isListType);
+                case nameof(GrupoCategoria):
+                    return InputArgumentFor<GrupoCategoriaUpdateInput>(isListType);
+                case nameof(GrupoUsuario):
+                    return InputArgumentFor<GrupoUsuarioUpdateInput>(isListType);
+                case nameof(Pergunta):
+                    return InputArgumentFor<PerguntaUpdateInput>(isListType);
+                case nameof(Pessoa):
+                    return InputArgumentFor<PessoaCreateInput>(isListType);
+                case nameof(Resposta):
+                    return InputArgumentFor<RespostaUpdateInput>(isListType);
+                case nameof(Resultado):
+                    return InputArgumentFor<ResultadoUpdateInput>(isListType);
+                case nameof(Socio):
+                    return InputArgumentFor<SocioCreateInput>(isListType);
+                case nameof(TipoContato):
+                    return InputArgumentFor<TipoContatoUpdateInput>(isListType);
+                case nameof(TipoDocumento):
+                    return InputArgumentFor<TipoDocumentoUpdateInput>(isListType);
+                case nameof(TipoExigencia):
+                    return InputArgumentFor<TipoExigenciaUpdateInput>(isListType);
+                case nameof(Usuario):
+                    return InputArgumentFor<UsuarioUpdateInput>(isListType);
+                case nameof(ValidadeDocumentoEstado):
+                    return InputArgumentFor<ValidadeDocumentoEstadoUpdate>(isListType);
+                case nameof(VersaoMec):
+                    return InputArgumentFor<VersaoMecUpdateInput>(isListType);
+                case nameof(Procuracao):
+                    return InputArgumentFor<ProcuracaoUpdateInput>(isListType);
+                case nameof(TermosAceite):
+                    return InputArgumentFor<TermosAceiteUpdateInput>(isListType);
+                case nameof(TermoAceiteEmpresa):
+                    return InputArgumentFor<TermoAceiteEmpresaUpdateInput>(isListType);
+                case nameof(Comentario):
+                    return InputArgumentFor<ComentarioCreateInput>(isListType);
+                case nameof(GrupoPerguntaQualificacao):
+                    return InputArgumentFor<GrupoPerguntaQualificacaoUpdateInput>(isListType);
+                case nameof(PerguntaQualificacao):
+                    return InputArgumentFor<PerguntaQualificacaoUpdateInput>(isListType);
                 default: return null;
             }
         }
@@ -205,16 +254,64 @@ namespace Gicaf.Application.GraphQL.Types
         {
             switch (name)
             {
+                case nameof(ArquivoProcessamentoPergunta):
+                    return InputArgumentFor<ArquivoProcessamentoPerguntaInput>(isListType);
+                case nameof(Categoria):
+                    return InputArgumentFor<CategoriaCreateInput>(isListType);
                 case nameof(Contato):
                     return InputArgumentFor<ContatoCreateInput>(isListType);
+                case nameof(DadosBalancoPatrimonial):
+                    return InputArgumentFor<DadosBalancoPatrimonialCreateInput>(isListType);
+                case nameof(DadosDRE):
+                    return InputArgumentFor<DadosDRECreateInput>(isListType);
                 case nameof(DadosPessoaFisica):
                     return InputArgumentFor<DadosPessoaFisicaCreateInput>(isListType);
+                case nameof(DocumentoEmpresa):
+                    return InputArgumentFor<DocumentoEmpresaCreateInput>(isListType);
                 case nameof(Empresa):
                     return InputArgumentFor<EmpresaCreateInput>(isListType);
                 case nameof(Endereco):
                     return InputArgumentFor<EnderecoCreateInput>(isListType);
+                case nameof(GrupoCategoria):
+                    return InputArgumentFor<GrupoCategoriaCreateInput>(isListType);
+                case nameof(GrupoUsuario):
+                    return InputArgumentFor<GrupoUsuarioCreateInput>(isListType);
+                case nameof(Pessoa):
+                    return InputArgumentFor<PessoaCreateInput>(isListType);
+                case nameof(Pergunta):
+                    return InputArgumentFor<PerguntaCreateInput>(isListType);
+                case nameof(PerguntaGrupoUsuario):
+                    return InputArgumentFor<PerguntaGrupoUsuarioCreateInput>(isListType);
+                case nameof(Resposta):
+                    return InputArgumentFor<RespostaCreateInput>(isListType);
+                case nameof(Socio):
+                    return InputArgumentFor<SocioCreateInput>(isListType);
+                case nameof(TipoContato):
+                    return InputArgumentFor<TipoContatoCreateInput>(isListType);
+                case nameof(TipoDocumento):
+                    return InputArgumentFor<TipoDocumentoCreateInput>(isListType);
+                case nameof(TipoExigencia):
+                    return InputArgumentFor<TipoExigenciaCreateInput>(isListType);
                 case nameof(Usuario):
                     return InputArgumentFor<UsuarioCreateInput>(isListType);
+                case nameof(ValidadeDocumentoEstado):
+                    return InputArgumentFor<ValidadeDocumentoEstadoInput>(isListType);
+                case nameof(VersaoMec):
+                    return InputArgumentFor<VersaoMecCreateInput>(isListType);
+                case nameof(Procuracao):
+                    return InputArgumentFor<ProcuracaoCreateInput>(isListType);
+                case nameof(TermosAceite):
+                    return InputArgumentFor<TermosAceiteCreateInput>(isListType);
+                case nameof(TermoAceiteEmpresa):
+                    return InputArgumentFor<TermoAceiteEmpresaCreateInput>(isListType);
+                case nameof(GrupoPerguntaQualificacao):
+                    return InputArgumentFor<GrupoPerguntaQualificacaoCreateInput>(isListType);
+                case nameof(Comentario):
+                    return InputArgumentFor<ComentarioCreateInput>(isListType);
+                case nameof(PerguntaQualificacao):
+                    return InputArgumentFor<PerguntaQualificacaoCreateInput>(isListType);
+                case nameof(ExigenciaGrupoQualificacao):
+                    return InputArgumentFor<ExigenciaGrupoQualificacaoCreateInput>(isListType);
                 default: return null;
                 
             }

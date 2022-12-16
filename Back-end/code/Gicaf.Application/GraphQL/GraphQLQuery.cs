@@ -100,7 +100,48 @@ namespace Gicaf.Application.GraphQL
                 this.AddFieldFor(type, ResolverType.Update);
                 this.AddFieldFor(type, ResolverType.UpdateMany);
                 this.AddFieldFor(type, ResolverType.Remove);
-                this.AddFieldFor(type, ResolverType.RemoveMany);       
+                this.AddFieldFor(type, ResolverType.RemoveMany);
+
+                if (type.Name == nameof(Resultado))
+                {
+                    var fieldType = new FieldType
+                    {
+                        Name = $"{type.Name}_processar",
+                        Type = typeof(BooleanGraphType),
+                        ResolvedType = new BooleanGraphType() { Name = "result" },//tableType,
+                        Arguments = EntityType.GetArgumentsFor(type.Name, ResolverType.ProcessarResultado)
+                    };
+                    fieldType.Metadata.Add(nameof(ResolverType), ResolverType.ProcessarResultado);
+                    fieldType.Metadata.Add(nameof(Type), type.EntityMetadata.Type);
+                    AddField(fieldType);
+                }
+
+                if (type.Name == nameof(AvaliacaoCategoria))
+                {
+                    var fieldType = new FieldType
+                    {
+                        Name = $"{type.Name}_processarMec",
+                        Type = typeof(BooleanGraphType),
+                        ResolvedType = new BooleanGraphType() { Name = "result" },//tableType,
+                    };
+                    fieldType.Metadata.Add(nameof(ResolverType), ResolverType.ProcessarMec);
+                    fieldType.Metadata.Add(nameof(Type), type.EntityMetadata.Type);
+                    AddField(fieldType);
+                }
+
+                if (type.Name == nameof(Resposta))
+                {
+                    var fieldType = new FieldType
+                    {
+                        Name = $"{type.Name}_gerar",
+                        Type = typeof(ListGraphType),
+                        ResolvedType = new ListGraphType(type),
+                        Arguments = EntityType.GetArgumentsFor(type.Name, ResolverType.GerarRespostas)
+                    };
+                    fieldType.Metadata.Add(nameof(ResolverType), ResolverType.GerarRespostas);
+                    fieldType.Metadata.Add(nameof(Type), type.EntityMetadata.Type);
+                    AddField(fieldType);
+                }
             }
         }
     }

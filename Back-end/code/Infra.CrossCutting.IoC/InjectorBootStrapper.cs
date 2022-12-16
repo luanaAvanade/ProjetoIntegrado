@@ -408,6 +408,11 @@ namespace Gicaf.Infra.CrossCutting.IoC
             ResultadoAnaliseEmail resultadoEmail = new ResultadoAnaliseEmail { NomeEmpresa = NomeEmpresa, ItensAnalise = new Dictionary<string, List<ItemAnaliseDisplay>>(), LinkReajuste = linkCadastro };
 
         }
+
+        public void SendResultadoAnaliseEmail(Usuario usuario, string empresa, List<ItemAnalise> itensAnalise, string linkCadastro)
+        {
+            throw new NotImplementedException();
+        }
     }
     public class ConfirmacaoEmail
     {

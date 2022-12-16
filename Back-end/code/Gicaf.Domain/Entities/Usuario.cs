@@ -15,6 +15,9 @@ namespace Gicaf.Domain.Entities
         public string Email { get; set; }
         public string CargoEmpresa { get; set; }
         public long? GrupoUsuarioId { get; set; }
+        public GrupoUsuario GrupoUsuario { get; set; }
+        public ICollection<Resposta> Respostas { get; set; }
+
         public long? EmpresaId { get; set; }
         public Empresa Empresa { get; set; }
 

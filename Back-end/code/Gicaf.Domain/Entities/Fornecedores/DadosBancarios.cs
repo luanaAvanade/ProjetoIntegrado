@@ -10,5 +10,6 @@ namespace Gicaf.Domain.Entities.Fornecedores
         public int? DigitoAgencia  { get; set; }
         public int? Conta  { get; set; }
         public int? DigitoConta  { get; set; }
+
     }
 }

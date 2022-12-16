@@ -76,7 +76,7 @@ namespace Gicaf.Application.GraphQL.Resolvers
             }
             else
             {
-                _resultExtensions.Extensions.Add(PaginationKey, new List<Pagination> { pagination });
+                //_resultExtensions.Extensions.Add(PaginationKey, new List<Pagination> { pagination });
             }
         }
 
@@ -135,7 +135,9 @@ namespace Gicaf.Application.GraphQL.Resolvers
 
         private object GerarRespostas(ResolveFieldContext context)
         {
-            return null;
+            var respostaInput = (Resposta)CreateInputFromContext(context, typeof(Resposta), out IDictionary<string, object> input);
+            var selectDetails = CreateNodeFromContext(context, typeof(Resposta));
+            return GetService<IRespostaService>().GerarRespostas(selectDetails, respostaInput.PerguntaId, respostaInput.UsuarioId);
         }
 
         private void SetMetadataValues(IDictionary<string, object> metadata)
@@ -146,6 +148,7 @@ namespace Gicaf.Application.GraphQL.Resolvers
 
         private object ProcessarMec(ResolveFieldContext context)
         {
+            GetService<IAvaliacaoCategoriaService>().ProcessarMec();
             return true;
         }
 
@@ -153,6 +156,7 @@ namespace Gicaf.Application.GraphQL.Resolvers
         {
 
             var perguntaId = context.GetArgument<long>(Constants.Arguments.codigoPergunta);
+            GetService<IResultadoService>().Processar(perguntaId);
             return true;
             //throw new NotImplementedException();
         }
@@ -356,6 +360,39 @@ namespace Gicaf.Application.GraphQL.Resolvers
 
         protected object HandleFiles(object obj, Dictionary<string, object> userContext)
         {
+            if (userContext.ContainsKey("files"))
+            {
+                var files = (List<IFilePost>)userContext["files"];
+                var arquivoPropertyInfo = obj.GetType().GetProperties().FirstOrDefault(x => x.PropertyType == typeof(Arquivo));
+                if (arquivoPropertyInfo == null)
+                {
+                    var documentoEmpresaPropertyInfo = obj.GetType().GetProperties().FirstOrDefault(x => x.PropertyType == typeof(ICollection<DocumentoEmpresa>));
+                    if(documentoEmpresaPropertyInfo != null)
+                    {
+                        foreach(var doc in (ICollection<DocumentoEmpresa>)documentoEmpresaPropertyInfo.GetValue(obj))
+                        {
+                            var file = files.FirstOrDefault(x => x.Name == doc.Arquivo.Key);
+                            if(file != null)
+                            {
+                                doc.Arquivo.Conteudo = new List<byte[]>() { file.Content }; 
+                                doc.Arquivo.Extensao = Path.GetExtension(file.FileName);
+                                doc.Arquivo.NomeArquivo = file.FileName;
+                                doc.Arquivo.Origem = OrigemArquivo.Gdrive;
+                            }
+                        }
+                    }
+                    
+                }    
+                if (arquivoPropertyInfo != null)
+                {
+                    var arquivo = (Arquivo)arquivoPropertyInfo.GetValue(obj);
+                    arquivo.NomeArquivo = string.Join(";", files.Select(x => Path.GetFileNameWithoutExtension(x.FileName)));
+                    //arquivo.Caminho = string.Join(";", files.Select(x =>  Config.DirArquivoImportacao));
+                    arquivo.Conteudo = files.Select(x => x.Content);
+                    arquivo.Extensao = string.Join(";", files.Select(x => Path.GetExtension(x.FileName)));
+                    arquivo.Origem = OrigemArquivo.SistemaDeArquivos;
+                }
+            }
             return null;
         }
     }

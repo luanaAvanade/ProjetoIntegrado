@@ -23,6 +23,7 @@ namespace Gicaf.Infra.Data.Scripts
             GO
 
             -- =============================================
+            -- Create date: 19/07/2019
             -- Description:	
             -- =============================================
             CREATE PROCEDURE [dbo].[sp_ProcessarPergunta]

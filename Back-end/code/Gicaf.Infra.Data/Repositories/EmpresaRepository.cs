@@ -17,6 +17,15 @@ namespace Gicaf.Infra.Data.Repositories
  
         public override Empresa Add(Empresa obj, IDictionary<string, object> input)
         {
+            if(obj.Documentos != null)
+            {
+                foreach(var documento in obj.Documentos)
+                {
+                    if(documento?.Arquivo?.Conteudo != null)
+                    {
+                    }
+                }         
+            }
              
 
             return base.Add(obj, input);

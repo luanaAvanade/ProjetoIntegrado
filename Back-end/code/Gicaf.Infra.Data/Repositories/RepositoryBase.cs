@@ -1,6 +1,4 @@
-﻿using Gicaf.Linq.Dynamic.Core;
-using GDrive;
-using Gicaf.Domain.Entities;
+﻿using Gicaf.Domain.Entities;
 using Gicaf.Domain.Entities.Base;
 using Gicaf.Domain.Entities.Fornecedores;
 using Gicaf.Domain.Interfaces;
@@ -21,6 +19,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using EFCore.BulkExtensions;
+using Gicaf.Linq.Dynamic.Core;
 //using Gicaf.Infra.Data.Connected_Services;
 
 namespace Gicaf.Infra.Data.Repositories
@@ -191,7 +190,10 @@ namespace Gicaf.Infra.Data.Repositories
         }
         public void SetFilesContent()
         {
-          
+            foreach (var entry in _db.ChangeTracker.Entries().Where(x => x.Entity.GetType() == typeof(Domain.Entities.Arquivo)))
+            {
+                //((Gicaf.Domain.Entities.Arquivo)entry.Entity).Conteudo = DateTime.Now;
+            }
         }
 
         public IEnumerable<TEntity> ConvertToEntityList(IQueryable queryable)
@@ -207,7 +209,38 @@ namespace Gicaf.Infra.Data.Repositories
 
         public void GetFilesContent(IEnumerable<TEntity> queryable)
         {
-            
+            var conteudoProp = typeof(TEntity).GetProperties()
+                                    .FirstOrDefault(x => x.PropertyType == typeof(Domain.Entities.Arquivo));
+            //.FirstOrDefault(x => x.DeclaringType == typeof(Domain.Entities.Arquivo) && x.Name == nameof(Domain.Entities.Arquivo.Conteudo));
+
+            if (conteudoProp != null || typeof(TEntity) == typeof(Domain.Entities.Arquivo))
+            {
+                Domain.Entities.Arquivo arquivo = null;
+                foreach (var item in queryable)
+                {
+                    if (conteudoProp != null)
+                    {
+                        arquivo = (Domain.Entities.Arquivo)conteudoProp.GetValue(item);
+                        arquivo.Conteudo = null;
+                    }
+                    else
+                    {
+                        arquivo = item as Domain.Entities.Arquivo;
+                    }
+                }
+
+                if (arquivo != null && arquivo.Origem == OrigemArquivo.Gdrive && arquivo.CodigoExterno != null)
+                {
+                    //arquivo.Conteudo = arquivo.Conteudo ?? new List<byte[]>();
+                    //var conteudoArquivo = _gdriveRepository.BuscarConteudoArquivoAsync(arquivo.CodigoExterno).Result.ConteudoBase64Binary;
+                    //arquivo.Conteudo.ToList().Add(conteudoArquivo);
+                }
+
+                if (arquivo != null && arquivo.Origem == OrigemArquivo.SistemaDeArquivos)
+                {
+                    arquivo.Conteudo.ToArray()[0] = File.ReadAllBytes(arquivo.CaminhoCompleto.FirstOrDefault());
+                }
+            }
         }
     }
 }

@@ -23,6 +23,18 @@
     <Compile Remove="Migrations\20191217232750_teste.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="PdfParser\SinonimosBalanco.csv" />
+    <None Remove="PdfParser\SinonimosDemonstracao.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="PdfParser\SinonimosBalanco.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PdfParser\SinonimosDemonstracao.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Bogus" Version="28.4.1" />
     <PackageReference Include="iTextSharp" Version="5.5.13.1" />
     <PackageReference Include="LINQKit.Core" Version="1.1.16" />
@@ -63,7 +75,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Mappings\" />
+    <Folder Include="Connected Services\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
   <PropertyGroup>

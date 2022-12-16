@@ -6,13 +6,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Gicaf.Linq.Dynamic.Core;
-using Gicaf.Linq.Dynamic.Core.CustomTypeProviders;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Gicaf.Domain.Entities.Base;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
+using Gicaf.Linq.Dynamic.Core;
+using Gicaf.Linq.Dynamic.Core.CustomTypeProviders;
 
 namespace Gicaf.Infra.Data
 {

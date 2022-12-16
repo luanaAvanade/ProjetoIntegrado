@@ -1,5 +1,4 @@
-﻿using Gicaf.Linq.Dynamic.Core;
-using Gicaf.Domain.Entities;
+﻿using Gicaf.Domain.Entities;
 using Gicaf.Domain.Entities.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
@@ -13,6 +12,7 @@ using EFCore.BulkExtensions;
 using Gicaf.Domain.Entities.Fornecedores;
 using System.Transactions;
 using Microsoft.Extensions.Configuration;
+using Gicaf.Linq.Dynamic.Core;
 
 namespace Gicaf.Infra.Data.Context
 {
