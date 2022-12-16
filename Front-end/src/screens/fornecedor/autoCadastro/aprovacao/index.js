@@ -86,41 +86,41 @@ export default function Aprovacao({
 	}, []);
 
 	function setStatusAtual(itensAnaliseStatus) {
-		if (user.perfilAnalista && disableEdit && itensAnalise === []) {
-			setAprovado(opaco);
-			setAprovadoRessalvas(opaco);
-			setReprovado(opaco);
-			return;
-		}
-		arquivoId = arquivoId !== undefined ? arquivoId : null;
-		const indexItem = itensAnaliseStatus.findIndex(
-			x => x.TipoItem === tipoItem && x.ArquivoId === arquivoId
-		);
-		if (indexItem >= 0) {
-			const statusItem = itensAnaliseStatus[indexItem].Status;
-			switch (statusItem) {
-				case ENUM_STATUS_ANALISE.find(x => x.internalName === 'Aprovado').value:
-					setAprovado(1);
-					setAprovadoRessalvas(opaco);
-					setReprovado(opaco);
-					setStatus('Aprovado');
-					break;
-				case ENUM_STATUS_ANALISE.find(x => x.internalName === 'Aprovado_Ressalvas').value:
-					setAprovado(opaco);
-					setAprovadoRessalvas(1);
-					setReprovado(opaco);
-					setStatus('Aprovado_Ressalvas');
-					break;
-				case ENUM_STATUS_ANALISE.find(x => x.internalName === 'Reprovado').value:
-					setAprovadoRessalvas(opaco);
-					setAprovado(opaco);
-					setReprovado(1);
-					setStatus('Reprovado');
-					break;
-				default:
-					break;
-			}
-		}
+		// if (user.perfilAnalista && disableEdit && itensAnalise === []) {
+		// 	setAprovado(opaco);
+		// 	setAprovadoRessalvas(opaco);
+		// 	setReprovado(opaco);
+		// 	return;
+		// }
+		// arquivoId = arquivoId !== undefined ? arquivoId : null;
+		// const indexItem = itensAnaliseStatus.findIndex(
+		// 	x => x.TipoItem === tipoItem && x.ArquivoId === arquivoId
+		// );
+		// if (indexItem >= 0) {
+		// 	const statusItem = itensAnaliseStatus[indexItem].Status;
+		// 	switch (statusItem) {
+		// 		case ENUM_STATUS_ANALISE.find(x => x.internalName === 'Aprovado').value:
+		// 			setAprovado(1);
+		// 			setAprovadoRessalvas(opaco);
+		// 			setReprovado(opaco);
+		// 			setStatus('Aprovado');
+		// 			break;
+		// 		case ENUM_STATUS_ANALISE.find(x => x.internalName === 'Aprovado_Ressalvas').value:
+		// 			setAprovado(opaco);
+		// 			setAprovadoRessalvas(1);
+		// 			setReprovado(opaco);
+		// 			setStatus('Aprovado_Ressalvas');
+		// 			break;
+		// 		case ENUM_STATUS_ANALISE.find(x => x.internalName === 'Reprovado').value:
+		// 			setAprovadoRessalvas(opaco);
+		// 			setAprovado(opaco);
+		// 			setReprovado(1);
+		// 			setStatus('Reprovado');
+		// 			break;
+		// 		default:
+		// 			break;
+		// 	}
+		// }
 	}
 
 	const aprovar = () => {

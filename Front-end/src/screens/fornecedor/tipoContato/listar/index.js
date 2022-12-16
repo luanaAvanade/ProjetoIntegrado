@@ -12,6 +12,7 @@ import { stableSort, getSorting } from '@/utils/list';
 import paths from '@/utils/paths';
 import { snackSuccess, snackError, snackWarning } from '@/utils/snack';
 import theme from '@/theme';
+import TipoContatoService from '@/services/tipoContato';
 import { SUBDIRETORIO_LINK, ROWSPERPAGE } from '@/utils/constants';
 import { Status } from '../../style';
 
@@ -65,7 +66,7 @@ export default function ListagemTipoContato({ getPermissao }) {
 
 	const tipoContatoFindAll = async () => {
 		dispatch(LoaderCreators.setLoading());
-		const response = null;
+		const response = await TipoContatoService.findAll();
 		if (response.data) {
 			setTipoContatoList(response.data.TipoContato_list);
 			dispatch(LoaderCreators.disableLoading());
@@ -87,6 +88,15 @@ export default function ListagemTipoContato({ getPermissao }) {
 	const excluir = () => {
 		setIdTipoContatoExcluir(null);
 		dispatch(LoaderCreators.setLoading());
+		TipoContatoService.verificarChaveEstrangeira(idTipoContatoExcluir).then(response => {
+			if (response.data.Contato_list.length > 0) {
+				callbackWarning(translate('excluirComChaveEstrageira'));
+			} else {
+				TipoContatoService.remove(idTipoContatoExcluir)
+					.then(() => callback(translate('tipoContatoExcluidoSucesso')))
+					.catch(() => callbackError(translate('erroExcluirTipoContato')));
+			}
+		});
 	};
 
 	// Ações de Retorno

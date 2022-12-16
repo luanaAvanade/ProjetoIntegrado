@@ -14,7 +14,7 @@ export function BotoesCadastro({
 	statusEmpresa
 }) {
 	return (
-		<Box display='flex' justifyContent='flex-end' paddingTop={`@/..{theme.spacing(1)}px`}>
+		<Box display='flex' justifyContent='flex-end' paddingTop={`${theme.spacing(1)}px`}>
 			{!disableEdit && (
 				<Fragment>
 					<Button

@@ -12,6 +12,7 @@ import { Creators as LoaderCreators } from '@/store/ducks/loader';
 
 import { snackError, snackSuccess, snackWarning } from '@/utils/snack';
 import theme from '@/theme';
+import TipoContatoService from '@/services/tipoContato';
 import { checkError } from '@/utils/validation';
 
 import { Switch } from '../../style';
@@ -52,7 +53,7 @@ export default function CadastrarTipoContato() {
 
 	const tipoContatoFindById = async () => {
 		dispatch(LoaderCreators.setLoading());
-		const response = null;
+		const response = await TipoContatoService.findById(id);
 		if (response.data) {
 			setFieldValue('nome', response.data.TipoContato.Nome, false);
 			setFieldValue('descricao', response.data.TipoContato.Descricao, false);
@@ -83,11 +84,35 @@ export default function CadastrarTipoContato() {
 		}
 	};
 	const create = async () => {
-		
+		TipoContatoService.verificarExistente(nome.value).then(response => {
+			if (response.data.TipoContato_list.length > 0) {
+				callbackWarning(translate('itemExistente'));
+			} else {
+				TipoContatoService.create(getTipoContato())
+					.then(() => callback(translate('novoTipoContatoCadatradoSucesso')))
+					.catch(() => callbackError(translate('erroCadastrarNovoTipoContato')));
+			}
+		});
 	};
 
 	const update = async () => {
-		
+		TipoContatoService.verificarExistente(nome.value).then(response => {
+			if (
+				response.data.TipoContato_list.length > 0 &&
+				response.data.TipoContato_list.some(t => t.Id !== id)
+			) {
+				callbackWarning(translate('itemExistente'));
+			} else {
+				TipoContatoService.update(id, {
+					Nome: nome.value,
+					Descricao: descricao.value,
+					Status: status
+				})
+					.then(() => callback(translate('tipoContatoAlteradoComSucesso')))
+					.catch(() => callbackError(translate('erroAlterarTipoContato')));
+			}
+			setOpenConfirmAlterar(false);
+		});
 	};
 
 	// Ações de Retorno

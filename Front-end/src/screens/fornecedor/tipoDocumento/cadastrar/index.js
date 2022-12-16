@@ -35,6 +35,8 @@ import { translate, translateWithHtml } from '@/locales';
 import { Creators as LoaderCreators } from '@/store/ducks/loader';
 import { snackSuccess, snackError, snackWarning } from '@/utils/snack';
 import theme from '@/theme';
+import TipoDocumentoService from '@/services/tipoDocumento';
+import TipoDocumentoFuncionalidadeService from '@/services/tipoDocumentoFuncionalidade';
 import { checkError } from '@/utils/validation';
 import ObjectHelper from '@/utils/objectHelper';
 import { BoxContentTab } from './style';
@@ -158,7 +160,7 @@ export default function CadastrarTipoDocumento() {
 
 	const tipoDocumentoFindById = async () => {
 		dispatch(LoaderCreators.setLoading());
-		const response = null;
+		const response = await TipoDocumentoService.findById(id);
 		if (response.data) {
 			const r = response.data.TipoDocumento_list[0];
 			setFieldValue('nome', r.Nome, false);
@@ -291,7 +293,7 @@ export default function CadastrarTipoDocumento() {
 	};
 
 	const create = async () => {
-		const list = null;
+		const list = await TipoDocumentoService.findByNome(nome.value);
 
 		if (list.data && list.data.TipoDocumento_list && list.data.TipoDocumento_list.length === 0) {
 			const tiposArq = enumFunc(selectTiposArquivos, tiposArquivosPermitidosList);
@@ -299,7 +301,29 @@ export default function CadastrarTipoDocumento() {
 				callbackWarning(translate('associacaoFuncionalidadeObrigatoria'), null);
 				return;
 			}
+			TipoDocumentoService.create({
+				Nome: nome.value,
+				Help: helpDoc.value,
+				Obrigatorio: obrigatorio.value,
+				QuantidadeMaxima: qtdMaxima.value === '' ? null : qtdMaxima.value,
+				TamanhoMaximo: tamanhoMaximo.value === '' ? null : tamanhoMaximo.value,
+				ValidadeMeses: validadeMeses.value === '' ? null : validadeMeses.value,
+				TiposArquivos: tiposArq,
+				Status: status,
+				TipoDocumentoFuncionalidade: funcionalidadesTipoDoc.map(item => {
+					item.ValidadeMeses = item.ValidadeMeses === '' ? null : item.ValidadeMeses;
+					return item;
+				})
+			})
+				.then(response => {
+					if (response.data.TipoDocumento_insert.Id !== undefined) {
+						callback(translate('sucessoInclusaoRegistro'));
 					} else {
+						callbackError(translate('erroInclusaoRegistro'), response);
+					}
+				})
+				.catch(response => callbackError(translate('erroInclusaoRegistro'), response));
+		} else {
 			enqueueSnackbar(
 				'',
 				snackWarning(translateWithHtml('jaExisteUmTipoDocumentoComEsteNome'), closeSnackbar)
@@ -308,7 +332,7 @@ export default function CadastrarTipoDocumento() {
 	};
 
 	const update = async () => {
-		const list = null;
+		const list = await TipoDocumentoService.findByNome(nome.value);
 
 		if (
 			list.data &&
@@ -321,7 +345,35 @@ export default function CadastrarTipoDocumento() {
 				return;
 			}
 			const tiposArq = enumFunc(selectTiposArquivos, tiposArquivosPermitidosList);
-			
+			TipoDocumentoFuncionalidadeService.removeMany(funcionalidadeIdsListInitial)
+				.then(() => {
+					funcionalidadesTipoDoc.map(x => delete x.Id);
+					TipoDocumentoService.update(id, {
+						Nome: nome.value,
+						Help: helpDoc.value,
+						Obrigatorio: obrigatorio.value,
+						Status: status,
+						QuantidadeMaxima: qtdMaxima.value === '' ? null : qtdMaxima.value,
+						TamanhoMaximo: tamanhoMaximo.value === '' ? null : tamanhoMaximo.value,
+						ValidadeMeses: validadeMeses.value === '' ? null : validadeMeses.value,
+						TiposArquivos: tiposArq,
+						TipoDocumentoFuncionalidade: funcionalidadesTipoDoc.map(item => {
+							item.ValidadeMeses = item.ValidadeMeses === '' ? null : item.ValidadeMeses;
+							return item;
+						})
+					})
+						.then(responseAdd => {
+							if (responseAdd.data.TipoDocumento_update.Id) {
+								callback(translate('sucessoAlteracaoRegistro'));
+							} else {
+								callbackError(translate('erroAlteracaoRegistro'), responseAdd);
+							}
+						})
+						.catch(responseAdd => callbackError(translate('erroAlteracaoRegistro'), responseAdd));
+				})
+				.catch(responseRemove => {
+					callbackError(translate('erroAlteracaoRegistro'), responseRemove);
+				});
 		} else {
 			setOpenConfirmAlterar(false);
 			enqueueSnackbar(
@@ -369,7 +421,7 @@ export default function CadastrarTipoDocumento() {
 	};
 
 	const setEstados = async () => {
-		const response = null;
+		const response = await TipoDocumentoService.listEstados();
 		if (response.data) {
 			setEstadoList(response.data.Estado_list);
 		} else {

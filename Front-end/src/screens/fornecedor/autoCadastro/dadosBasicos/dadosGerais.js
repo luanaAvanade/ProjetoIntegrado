@@ -24,7 +24,8 @@ import Aprovacao from '@/screens/fornecedor/autoCadastro/aprovacao';
 import moment from 'moment';
 
 export default function DadosGerais({
-	formulario,
+	empresaId,
+  	formulario,
 	preCadastro,
 	itensAnalise,
 	setItensAnalise,
@@ -126,13 +127,6 @@ export default function DadosGerais({
 		() => {
 			setAtividadeEconomicaPrincipalList([]);
 			setOcupacaoPrincipalList([]);
-
-			if (tipoEmpresa.value === PESSOAJURIDICA.id) {
-				//CNAEFindAll();
-			}
-			if (tipoEmpresa.value === MEI.id) {
-				//CNAEOcupacaoFindAll();
-			}
 		},
 		[
 			tipoEmpresa.value
@@ -143,12 +137,10 @@ export default function DadosGerais({
 		() => {
 			if (preCadastro) {
 				if (temQuatorze(cnpj.value) && cnpjIsValid(cnpj.value)) {
-					//buscarEmpresa();
 				}
 			} else {
 				if (CNPJOriginal) {
 					if (CNPJOriginal !== cnpj.value && temQuatorze(cnpj.value) && cnpjIsValid(cnpj.value)) {
-						//buscarEmpresa();
 					}
 				}
 			}
@@ -157,6 +149,23 @@ export default function DadosGerais({
 			cnpj.value
 		]
 	);
+
+
+	const empresaFindById = async () => {
+		try {
+			const response = await EmpresaService.findById(empresaId);
+			if (response.data && response.data.Empresa_list.length > 0) {
+				response.data.Empresa_list[0].Historico = historicoEmpresa;
+				setDadosGerais(response.data.Empresa_list[0]);
+				dispatch(LoaderCreators.disableLoading());
+			} else {
+				dispatch(LoaderCreators.disableLoading());
+			}
+			dispatch(LoaderCreators.disableLoading());
+		} catch (error) {
+			dispatch(LoaderCreators.disableLoading());
+		}
+	};
 
 	const montaList = list => {
 		list.forEach(item => {
@@ -191,20 +200,50 @@ export default function DadosGerais({
 		}
 	};
 
-	const setDadosGerais = empresaExistente => {
-		setFieldValue('nomeEmpresa', empresaExistente.NomeEmpresa);
-		setFieldValue(
-			'dataAbertura',
-			moment(new Date(empresaExistente.DataAbertura)).format('YYYY-MM-DD')
-		);
-		setFieldValue('cep', empresaExistente.Enderecos[0].CEP);
-		setFieldValue(
-			'atividadeEconomicaPrincipal',
-			tipoEmpresa.value === PESSOAJURIDICA.id
-				? empresaExistente.AtividadeEconomicaPrincipalId
-				: empresaExistente.OcupacaoPrincipalId
-		);
-		setKey(key + 1);
+	const setDadosGerais = dados => {
+
+		var cep= dados.Enderecos.length > 0 ? dados.Enderecos[0].CEP : '';
+		var	logradouro= dados.Enderecos.length > 0 ? dados.Enderecos[0].Logradouro : '';
+		var numero= dados.Enderecos.length > 0 ? dados.Enderecos[0].Numero : '';
+		var	complemento= dados.Enderecos.length > 0 ? dados.Enderecos[0].Complemento : '';
+		var	bairro= dados.Enderecos.length > 0 ? dados.Enderecos[0].Bairro : '';
+		var	municipio= dados.Enderecos.length > 0 ? dados.Enderecos[0].Municipio.Id : '';
+		var	estado= dados.Enderecos.length > 0 ? dados.Enderecos[0].Municipio.EstadoId : '';
+
+		var cpf= dados.Enderecos.length > 0 ? dados.Usuarios[0].CPF : '';
+	    var nomeUsuario= dados.Enderecos.length > 0 ? dados.Usuarios[0].Nome : '';
+		var	telefone= dados.Enderecos.length > 0 ? dados.Usuarios[0].Telefone : '';
+		var	celular= dados.Enderecos.length > 0 ? dados.Usuarios[0].Celular : '';
+		var	cargoEmpresa= dados.Enderecos.length > 0 ? dados.Usuarios[0].CargoEmpresa : '';
+		var email= dados.Enderecos.length > 0 ? dados.Usuarios[0].Email : '';
+
+		var dataAbertura= dados.DataAbertura ? dados.DataAbertura.split('T')[0] : dados.DataAbertura;
+
+		var isentoIE= dados.IsentoIE > 0 ?  true : false;
+
+		setFieldValue('isentoIE', isentoIE);
+		setFieldValue('cpf', cpf);
+		setFieldValue('nomeUsuario', nomeUsuario);
+		setFieldValue('telefone', telefone);
+		setFieldValue('celular', celular);
+		setFieldValue('cargoEmpresa', cargoEmpresa);
+		setFieldValue('email', email);
+		setFieldValue('dataAbertura', dataAbertura);
+		setFieldValue('cnpj', dados.CNPJ);
+		setFieldValue('nomeEmpresa', dados.NomeEmpresa);
+		setFieldValue('inscricaoEstadual', dados.InscricaoEstadual);
+		setFieldValue('inscricaoMunicipal', dados.InscricaoMunicipal);
+		setFieldValue('optanteSimplesNacional', dados.OptanteSimplesNacional);
+		setFieldValue('atividadeEconomicaPrincipal', dados.AtividadeEconomicaPrincipalId);
+		setFieldValue('ocupacaoPrincipal', dados.OcupacaoPrincipalId);
+		setFieldValue('cep', cep);
+		setFieldValue('logradouro', logradouro);
+		setFieldValue('numero', numero);
+		setFieldValue('complemento', complemento);
+		setFieldValue('bairro', bairro);
+		setFieldValue('municipio', municipio);
+		setFieldValue('estado', estado);
+		setFieldValue('aceitoCondicoes', true);
 	};
 
 	const buscarEmpresa = () => {

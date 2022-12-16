@@ -9,6 +9,7 @@ import { translate } from '@/locales';
 import theme from '@/theme';
 import EstadoService from '@/services/estado';
 import MunicipioService from '@/services/municipio';
+import GrupoCategoriaService from '@/services/grupoCategoria';
 import { ROWSPERPAGE, SITUACAO_FORNECEDOR } from '@/utils/constants';
 import { useFormik } from 'formik';
 import { cnpjMask, soNumero, cpfCnpjMask } from '@/utils/mascaras';
@@ -36,11 +37,13 @@ export function FiltroAnalise({ openFiltro, setOpenFiltro, setFiltro }) {
 		setKey
 	] = useState(0);
 
-	// Efeito Inicial
+	// // Efeito Inicial
 
 	useEffect(() => {
 		setOpenFiltro(false);
+		//carregarDados();
 		return () => {
+			//resetForm();
 			setEstadoList([]);
 		};
 	}, []);
@@ -52,7 +55,7 @@ export function FiltroAnalise({ openFiltro, setOpenFiltro, setFiltro }) {
 
 	const carregaGrupos = async () => {
 		dispatch(LoaderCreators.setLoading());
-		const response = null;
+		const response = await GrupoCategoriaService.findAll();
 		if (response.data) {
 			setGrupoFornecimentoList(response.data.GrupoCategoria_list);
 			setKey(key + 1);

@@ -4,7 +4,9 @@ import { Route, Redirect } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Box, IconButton, Typography } from '@material-ui/core';
 import useReactRouter from 'use-react-router';
-import { HowToReg, PersonAdd, History, MonetizationOn } from '@material-ui/icons';
+import { HowToReg, PersonAdd, History, MonetizationOn} from '@material-ui/icons';
+import  CheckIcon from '@material-ui/icons/Check';
+import ClearIcon from '@material-ui/icons/Clear';
 import { useSnackbar } from 'notistack';
 import { Button, Modal, FormSelect, FormSelectWithSearch } from '@/components';
 import { LayoutContent } from '@/layout';
@@ -156,81 +158,42 @@ export default function ListagemAnalise() {
 		setAnaliseCadastroList(temp);
 	};
 
+	const setFiltroAnalises = value => {
+		if (value == 'MinhasAnalises') {
+			setFiltroMinhasAnalises(true);
+			setFiltroAnalisesPendentes(false);
+		} else if (value == 'AnalisesPendentes') {
+			setFiltroMinhasAnalises(false);
+			setFiltroAnalisesPendentes(true);
+		}
+	};
+
 	// Buscar Dados
 
 	const analiseFindAll = async () => {
-		//dispatch(LoaderCreators.setLoading());
+		dispatch(LoaderCreators.setLoading());
 		const u = getUser();
+		
 		const usuario = {
 			perfilAnalista: true,
-			id: "123"
+			id: "1"
 		};
 
 		
 		setUser(usuario);
 
 
-		var UsuarioEmp = {
-			Nome: 'Luana Rodrigues Santos'
+
+		const response = await EmpresaService.findEmpresasWithWhereClause('Id!=null and Id > 143');
+		if (response.data) {
+			let t = response.data.Empresa_list.sort(sort);
+			setAnaliseCadastroList(t);
+			setAnaliseCadastroListInitial(t);
+			dispatch(LoaderCreators.disableLoading());
+		} else {
+			callbackError(translate('erroCarregarDados'));
+			dispatch(LoaderCreators.disableLoading());
 		}
-
-		var UsuarioEmp2 = {
-			Nome: 'Luana Rodrigues Santos'
-		}
-
-		var AnaliseCadastro = {
-			StatusAnalise: 0,
-			AtribuidoId: 1,
-			TransmitidoId: '',
-			Atribuido: UsuarioEmp,
-			Transmitido: UsuarioEmp2,
-			
-
-		};
-
-		var calcRiscoLista = [
-		{
-			ClassificacaoFase1: 1
-		}
-
-		];
-
-
-		var empresa = [
-		{
-			Id: 1,
-			Situacao: 2,
-			NomeEmpresa: 'Empresa telecom',
-			CalculoRiscoLista: calcRiscoLista,
-			CNPJ: '123456789',
-			TipoEmpresa: '1',
-			TipoCadastro: 'cadastro empresa',
-			DataCriacao: '',
-			AnaliseCadastro: AnaliseCadastro
-			
-		}
-
-];
-
-		 	setAnaliseCadastroList(empresa);
-		 	setAnaliseCadastroListInitial(empresa);
-
-		// const response = await EmpresaService.findEmpresasWithWhereClause('Id!=null');
-		// if (response.data) {
-		// 	let t = response.data.Empresa_list.sort(sort);
-		// 	setAnaliseCadastroList(t);
-		// 	setAnaliseCadastroListInitial(t);
-		// 	const responseUsers = await LoginService.getUsersInRole('Analista de Cadastro');
-		// 	if (responseUsers) {
-		// 		setUsuarioList(responseUsers);
-		// 	} else {
-		// 		callbackError(translate('erroCarregarDados'));
-		// 	}
-		// 	dispatch(LoaderCreators.disableLoading());
-		// } else {
-		// 	callbackError(translate('erroCarregarDados'));
-		// 	dispatch(LoaderCreators.disableLoading());
-		// }
 	};
 
 	function sort(a, b) {
@@ -251,7 +214,7 @@ export default function ListagemAnalise() {
 	// // Ações da Tela
 
 	const open = id => {
-		history.push(`@/..{SUBDIRETORIO_LINK}/cadastro-complementar/@/..{id}`);
+		history.push(`${SUBDIRETORIO_LINK}/cadastro-complementar/${id}`);
 	};
 
 	const selfAssignee = async idEmpresa => {
@@ -268,8 +231,69 @@ export default function ListagemAnalise() {
 			const response = await EmpresaService.update(idEmpresa, empresaSave);
 
 			if (response.data && response.data.Empresa_update) {
-				history.push(`@/..{SUBDIRETORIO_LINK}/cadastro-complementar/@/..{idEmpresa}`);
+				history.push(`${SUBDIRETORIO_LINK}/cadastro-complementar/${idEmpresa}`);
 				//analiseFindAll();
+				callback(translate('sucessoAtribuicaoAnalise'));
+			} else {
+				callbackError(translate('erroAtribuicaoAnalise'));
+			}
+		} catch (error) {
+			callbackError(translate('erroAtribuicaoAnalise'));
+		}
+	};
+
+
+	const aprovar = async idEmpresa => {
+		dispatch(LoaderCreators.setLoading());
+		try {
+
+			let empresaSave = {
+				
+				AnaliseCadastro: {
+					Id: analiseCadastroList.find(x => x.Id === idEmpresa).AnaliseCadastro.Id,
+					StatusAnalise: ENUM_STATUS_ANALISE.find(x => x.internalName === 'Aprovado')
+						.internalName,
+						AtribuidoId: user.id
+				}
+			};
+
+			const responseEmpresa = await EmpresaService.findByIdAproveReprove(idEmpresa);
+			if (responseEmpresa.data && responseEmpresa.data.Empresa_list.length > 0) {
+
+				var empresa = responseEmpresa.data.Empresa_list[0];
+				empresa.AnaliseCadastro = empresaSave.AnaliseCadastro;
+				const response = await EmpresaService.update(idEmpresa, empresa);
+
+			if (response.data && response.data.Empresa_update) {
+				analiseFindAll();
+				callback(translate('sucessoAtribuicaoAnalise'));
+			} else {
+				callbackError(translate('erroAtribuicaoAnalise'));
+			}
+
+			}
+		
+			
+		} catch (error) {
+			callbackError(translate('erroAtribuicaoAnalise'));
+		}
+	};
+
+
+	const reprovar = async idEmpresa => {
+		dispatch(LoaderCreators.setLoading());
+		try {
+			let empresaSave = {
+				AnaliseCadastro: {
+					Id: analiseCadastroList.find(x => x.Id === idEmpresa).AnaliseCadastro.Id,
+					StatusAnalise: ENUM_STATUS_ANALISE.find(x => x.internalName === 'Reprovado')
+						.internalName
+				}
+			};
+			const response = await EmpresaService.update(idEmpresa, empresaSave);
+
+			if (response.data && response.data.Empresa_update) {
+				analiseFindAll();
 				callback(translate('sucessoAtribuicaoAnalise'));
 			} else {
 				callbackError(translate('erroAtribuicaoAnalise'));
@@ -402,16 +426,6 @@ export default function ListagemAnalise() {
 		semPermissao();
 	}
 
-	const setFiltroAnalises = value => {
-		if (value == 'MinhasAnalises') {
-			setFiltroMinhasAnalises(true);
-			setFiltroAnalisesPendentes(false);
-		} else if (value == 'AnalisesPendentes') {
-			setFiltroMinhasAnalises(false);
-			setFiltroAnalisesPendentes(true);
-		}
-	};
-
 	return (
 		<LayoutContent>
 			{user &&
@@ -443,7 +457,6 @@ export default function ListagemAnalise() {
 							label={`${translate('usuario')}`}
 							options={usuarioList}
 							getOptionLabel={option => option.nome}
-							//value={event.target.value}
 							onChange={(event, selected) => setAssignee(selected == null ? null : selected.id)}
 						/>
 					</Modal>
@@ -453,7 +466,7 @@ export default function ListagemAnalise() {
 							backgroundColor={
 								!filtroMinhasAnalises ? theme.palette.primary.main : theme.palette.secondary.main
 							}
-							//onClick={() => setFiltroAnalises('MinhasAnalises')}
+							onClick={() => setFiltroAnalises('MinhasAnalises')}
 						/>
 						<Button
 							text={translate('analisesPendentes')}
@@ -470,7 +483,6 @@ export default function ListagemAnalise() {
 							{
 								title: 'Fornecedor',
 								field: 'NomeEmpresa',
-								// defaultFilter: rowData.NomeEmpresa.includes(filtro['nomeEmpresa']),
 								cellStyle: {
 									width: '35%'
 								},
@@ -488,7 +500,7 @@ export default function ListagemAnalise() {
 										</Typography>
 										<IconButton
 											size='small'
-											// onClick={() => selfAssignee(rowData.Id)}
+											 onClick={() => selfAssignee(rowData.Id)}
 											title={getPropRisco(rowData.CalculoRiscoLista).label}
 											style={{
 												color: getPropRisco(rowData.CalculoRiscoLista).color
@@ -573,24 +585,25 @@ export default function ListagemAnalise() {
 										</IconButton>
 										<IconButton
 											size='small'
-											onClick={() => setEmpresaId(rowData.Id)}
-											title={'Transmitir'}
+											onClick={() => aprovar(rowData.Id)}
+											title={'Aprovar'}
 											style={{
 												color: `rgb(51,102,102,${desablitarAcoes(rowData) ? 0.3 : 1})`
 											}}
 											disabled={desablitarAcoes(rowData)}
 										>
-											<PersonAdd />
+											<CheckIcon />
 										</IconButton>
 										<IconButton
 											size='small'
-											onClick={() => alert('Funcionalidade ainda não implementada!')}
-											title={'Funcionalidade ainda não implementada!'}
+											onClick={() => reprovar(rowData.Id)}
+											title={'Reprovar'}
 											style={{
-												color: `rgb(0,0,255,0.3)`
+												color: `rgb(220,20,60)`
 											}}
+											disabled={desablitarAcoes(rowData)}
 										>
-											<History />
+											<ClearIcon />
 										</IconButton>
 									</Box>
 								),

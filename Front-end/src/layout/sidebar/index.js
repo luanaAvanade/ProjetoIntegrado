@@ -54,10 +54,7 @@ function SideBar() {
 
 
 		// SUBMODULO FORNECEDOR
-		//if (modulesMap.has('FORNECEDOR_ANALISE_CADASTRO')) {
 			subModulosFornecedor.push(analistaCadastro);
-		//}
-		//if (modulesMap.has('FORNECEDOR_CADASTRO')) {
 			subModulosFornecedor.push(cadastroComplementar);
 
 
@@ -69,7 +66,6 @@ function SideBar() {
 		modulos.push(home);
 		// Caso exista submodulo o modulo é adicionado
 		if (subModulosMec.length > 0) {
-			//modulos.push(mec);
 		}
 		if (subModulosFornecedor.length > 0) {
 			modulos.push(fornecedor);

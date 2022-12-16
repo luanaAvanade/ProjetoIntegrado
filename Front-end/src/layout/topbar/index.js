@@ -30,7 +30,7 @@ function Topbar({ sidebar = false, onToggleSidebar }) {
 						{sidebar ? <BackIcon /> : <ForwardIcon />}
 					</IconButton>
 					<Middle>
-						<UserInfo userName='Rafael Mendonça' profile='Analista Desenvolvedor' />
+						<UserInfo userName='Luana Rodrigues' profile='Engenheira de software' />
 					</Middle>
 					<IconButton title={translate('sair')} onClick={handleSignOut}>
 						<InputIcon />

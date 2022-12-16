@@ -107,7 +107,7 @@ export default function DadosEndereco({
 	useEffect(
 		() => {
 			if (preCadastro && cep.value && soNumero(cep.value).length === 8) {
-				buscarEndereco();
+				//buscarEndereco();
 			}
 
 			if (!preCadastro && CEPOriginal === null) {
@@ -115,7 +115,7 @@ export default function DadosEndereco({
 			}
 
 			if (CEPOriginal && CEPOriginal !== cep.value && soNumero(cep.value).length === 8) {
-				buscarEndereco();
+				//buscarEndereco();
 			}
 		},
 		[
